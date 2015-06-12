@@ -145,6 +145,10 @@ public class SingularityValidator {
       checkBadRequest(!request.getScheduleType().isPresent(), "ScheduleType can only be set for scheduled requests");
     }
 
+    if (loadBalancerUri == null && request.isLoadBalanced()) {
+      checkBadRequest(!request.isLoadBalanced(), "request cannot be load-balanced without a load balanced URI set");
+    }
+
     if (!request.isLongRunning()) {
       checkBadRequest(!request.isLoadBalanced(), "non-longRunning (scheduled/oneoff) requests can not be load balanced");
       checkBadRequest(!request.isRackSensitive(), "non-longRunning (scheduled/oneoff) requests can not be rack sensitive");
