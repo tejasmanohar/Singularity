@@ -118,6 +118,10 @@ public class SingularityValidator {
       checkForIllegalResources(request, pendingDeploy.get());
     }
 
+    if (loadBalancerUri == null && request.isLoadBalanced()) {
+      checkBadRequest(!request.isLoadBalanced(), "request cannot be load-balanced without a load balanced URI set");
+    }
+
     String quartzSchedule = null;
 
     if (request.isScheduled()) {
@@ -143,10 +147,6 @@ public class SingularityValidator {
     } else {
       checkBadRequest(!request.getQuartzSchedule().isPresent() && !request.getSchedule().isPresent(), "Non-scheduled requests can not specify a schedule");
       checkBadRequest(!request.getScheduleType().isPresent(), "ScheduleType can only be set for scheduled requests");
-    }
-
-    if (loadBalancerUri == null && request.isLoadBalanced()) {
-      checkBadRequest(!request.isLoadBalanced(), "request cannot be load-balanced without a load balanced URI set");
     }
 
     if (!request.isLongRunning()) {
