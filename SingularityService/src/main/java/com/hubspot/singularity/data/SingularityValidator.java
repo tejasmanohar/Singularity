@@ -41,6 +41,7 @@ public class SingularityValidator {
   private final int defaultCpus;
   private final int defaultMemoryMb;
   private final int maxMemoryMbPerInstance;
+  private final String loadBalancerUri;
   private final boolean allowRequestsWithoutOwners;
   private final boolean createDeployIds;
   private final int deployIdLength;
@@ -55,6 +56,7 @@ public class SingularityValidator {
     this.createDeployIds = configuration.isCreateDeployIds();
     this.deployIdLength = configuration.getDeployIdLength();
     this.deployHistoryHelper = deployHistoryHelper;
+    this.loadBalancerUri = configuration.getLoadBalancerUri();
 
     this.defaultCpus = configuration.getMesosConfiguration().getDefaultCpus();
     this.defaultMemoryMb = configuration.getMesosConfiguration().getDefaultMemory();
